@@ -73,7 +73,7 @@ app.get("/add-product-type-table", (req, res) => {
   
   });
 
-  app.post("/add-type", upload.single("file"), uploadFiles);
+  app.post("/add-type", upload.single("type_pic"), uploadFiles);
   function uploadFiles(req, res) {
 
     const data = req.body;
