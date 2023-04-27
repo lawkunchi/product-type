@@ -2,13 +2,26 @@ const express = require("express");
 require('dotenv').config();
 const mysql = require('mysql');
 const app = express();
+var crypto = require('crypto');
+var mime = require('mime');
 
-var bodyParser = require('body-parser');
+const multer = require("multer")
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/')
+  },
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + '.' + mime.getExtension(file.mimetype));
+    });
+  }
+});
+
+const upload = multer({storage: storage });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
 
@@ -44,7 +57,7 @@ app.get("/add-product-type-table", (req, res) => {
 
     let sql =
   
-      "CREATE TABLE product_type(id int AUTO_INCREMENT, type_code VARCHAR(255), markup VARCHAR(255), markup_active_date DATE, type_pic VARCHAR(255), type_description VARCHAR(255), PRIMARY KEY(id))";
+      "CREATE TABLE product_type(id int AUTO_INCREMENT, type_code VARCHAR(255), markup INTEGER(2), markup_active_date DATE, type_pic VARCHAR(255), type_description VARCHAR(255), PRIMARY KEY(id))";
   
     db.query(sql, (err) => {
   
@@ -60,9 +73,11 @@ app.get("/add-product-type-table", (req, res) => {
   
   });
 
-  app.post("/add-type", (req, res) => {
+  app.post("/add-type", upload.single("file"), uploadFiles);
+  function uploadFiles(req, res) {
 
     const data = req.body;
+    console.log(req.file);
     var errors = {};
     if(data.type_code == undefined) {
       errors.type_code = 'Type Code is required.';
@@ -84,12 +99,16 @@ app.get("/add-product-type-table", (req, res) => {
       }
     }
 
-    if(data.type_pic == undefined) {
+    if(req.file == undefined) {
       errors.type_pic = 'Type Pic is required.';
     }
 
     if(data.type_description == undefined) {
       errors.type_description = 'Type Description is required.';
+    }
+    
+    if(req.file !== undefined) {
+      data.type_pic = req.file.path;
     }
 
   
@@ -131,7 +150,7 @@ app.get("/add-product-type-table", (req, res) => {
     });
 
 
-  });
+  }
 
 
   app.listen("3000", () => {
