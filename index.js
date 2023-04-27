@@ -57,7 +57,7 @@ app.get("/add-product-type-table", (req, res) => {
 
     let sql =
   
-      "CREATE TABLE product_type(id int AUTO_INCREMENT, type_code VARCHAR(255), markup INTEGER(2), markup_active_date DATE, type_pic VARCHAR(255), type_description VARCHAR(255), PRIMARY KEY(id))";
+      "CREATE TABLE product_type(id int AUTO_INCREMENT, type_code VARCHAR(255), markup INTEGER(2), markup_active_date DATE, type_pic DECIMAL(5,2), type_description VARCHAR(255), PRIMARY KEY(id))";
   
     db.query(sql, (err) => {
   
