@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<style>
+	.container {
+		background-image: url("bg.png");
+		background-size: cover;
+		background-position: center center;
+        background-repeat: no-repeat;
+	}
+	h1 {
+		color: #DB00B6;
+		text-align: center;
+		font-size: 32px;
+		margin-bottom: 2rem;
+	}
+
+    form {
+        background: #D9D9D9;
+        border-radius: 15px;
+        padding: 1rem;
+        width: 400px;
+    }
+
+    input {
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    input:focus {
+        outline: none;
+        box-shadow: 0;
+        border: 0;
+    }
+
+	label {
+		color: #4361EE;
+	}
+	button {
+		background-color: #4361EE !important;
+        width: 80%;
+	}
+
+	button:focus, input:focus {
+		outline: none;
+		border: 0;
+		box-shadow: none;
+	}
+	
+	.btn-container {
+		margin-top: 4rem;
+		display: flex;
+		justify-content: center;
+	}
+
+    h3 {
+        color: #4361EE;
+        font-size: 20px;
+        text-align: center;
+        font-weight: 500;
+    }
+    h2 {
+        font-size: 24px;
+        text-align: center;
+        color: #DB00B6;
+        margin-bottom: 2rem;
+        font-weight: 700;
+    }
+
+</style>
+<body class="container">
+
+
+
+
+<main>
+  <div class="">
+
+    <form action="/login" enctype="multipart/form-data" method="post" class="mx-auto">
+        <h3>Welcome Back</h3>
+        <h2>InfiniTek.co.za</h2>
+		<div class="form-group">    
+            <input type="text" name="company_code" class="form-control" placeholder="Company Code">
+		</div>
+
+		<div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="Username" >
+		</div>
+
+		<div class="form-group">
+            <input type="password" name="password" placeholder="Password" class="form-control" >
+		</div>
+
+        <div class="form-group d-flex justify-content-end">
+            <a href="/forgot-password">Forgot Password</a>
+		</div>
+
+        <div class="form-group text-center">
+			<button type="submit" class="btn btn-primary btn-mx btn-lg">Login</button>
+		</div>
+
+    </form>
+    <h1>Systems Subscribed To</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- <img src="bg.png"/> -->
+            <h4>POS</h4>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+
+    <h1>Systems Available For Subscription</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- <img src="bg.png"/> -->
+            <h4>POS</h4>v
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    
+
+  </div>
+</main>
+
+
+
+</body>
+</html>

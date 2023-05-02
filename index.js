@@ -22,6 +22,8 @@ const upload = multer({storage: storage });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("./public"));
+app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
 
@@ -73,11 +75,11 @@ app.get("/add-product-type-table", (req, res) => {
   
   });
 
-  app.post("/add-type", upload.single("type_pic"), uploadFiles);
+  app.post("/add-type", upload.single("file"), uploadFiles);
   function uploadFiles(req, res) {
 
     const data = req.body;
-    console.log(req.file);
+    console.log(req.file,'file data');
     var errors = {};
     if(data.type_code == undefined) {
       errors.type_code = 'Type Code is required.';
@@ -108,7 +110,7 @@ app.get("/add-product-type-table", (req, res) => {
     }
     
     if(req.file !== undefined) {
-      data.type_pic = req.file.path;
+      data.type_pic = req.file.destination+req.file.filename.substring(1);
     }
 
   
@@ -144,6 +146,7 @@ app.get("/add-product-type-table", (req, res) => {
           res.status(200).send({
             success: true,
             message: "Product Type Created",
+            data: data,
         });
         
   
@@ -152,6 +155,17 @@ app.get("/add-product-type-table", (req, res) => {
 
   }
 
+  // about page
+app.get('/product', function(req, res) {
+  res.render('pages/product');
+});
+
+
+  // about page
+  app.get('/', function(req, res) {
+    res.render('pages/systems');
+  });
+  
 
   app.listen("3000", () => {
 
